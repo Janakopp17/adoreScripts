@@ -24,8 +24,6 @@ library(tidyr)
 data_path <- 'E:/Jana/Adore/data_analysis/data'
 list_subj <- dir(data_path, pattern = 'sub*')
 
-outer_count <- 1
-
 for (i in 1:length(list_subj)){
   
   list_ses <- dir(paste(data_path,list_subj[i],sep='/'))
