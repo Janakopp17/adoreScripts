@@ -46,6 +46,7 @@ for (i in 1:length(list_subj)){
 
       data_semifinal <- data.frame(blocknr = NA,
                                   trialnr = NA,
+                                  solution = NA,
                                   correct = NA,
                                   RT = NA
                                   )
@@ -58,6 +59,7 @@ for (i in 1:length(list_subj)){
   
           data_semifinal[row_count,'correct'] <- data_temp[x , 'resp_trial_Test1A.corr']
           data_semifinal[row_count,'RT'] <- data_temp[x , 'resp_trial_Test1A.rt']
+          data_semifinal[row_count,'solution'] <- data_temp[x , 'corrAns_test1A']
           data_semifinal[row_count,'blocknr'] <- '1A'
           data_semifinal[row_count,'trialnr'] <- z
   
@@ -68,6 +70,7 @@ for (i in 1:length(list_subj)){
       for (y in 93:164){
           data_semifinal[row_count,'correct'] <- data_temp[y , 'resp_trial_Test1B.corr']
           data_semifinal[row_count,'RT'] <- data_temp[y , 'resp_trial_Test1B.rt']
+          data_semifinal[row_count,'solution'] <- data_temp[x , 'corrAns_test1B']
           data_semifinal[row_count,'blocknr'] <- '1B'
           data_semifinal[row_count,'trialnr'] <- z
   
@@ -79,6 +82,7 @@ for (i in 1:length(list_subj)){
       for (w in 166:237){
           data_semifinal[row_count,'correct'] <- data_temp[w , 'resp_trial_Test2A.corr']
           data_semifinal[row_count,'RT'] <- data_temp[w , 'resp_trial_Test2A.rt']
+          data_semifinal[row_count,'solution'] <- data_temp[x , 'corrAns_test2A']
           data_semifinal[row_count,'blocknr'] <- '2A'
           data_semifinal[row_count,'trialnr'] <- z
   
@@ -90,6 +94,7 @@ for (i in 1:length(list_subj)){
       for (v in 239:310){
           data_semifinal[row_count,'correct'] <- data_temp[v , 'resp_trial_Test2B.corr']
           data_semifinal[row_count,'RT'] <- data_temp[v , 'resp_trial_Test2B.rt']
+          data_semifinal[row_count,'solution'] <- data_temp[x , 'corrAns_test2B']
           data_semifinal[row_count,'blocknr'] <- '2B'
           data_semifinal[row_count,'trialnr'] <- z
   
