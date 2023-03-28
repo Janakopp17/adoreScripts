@@ -25,9 +25,17 @@ library(tidyr)
 go_nogo_data <- data.frame(id = NA,
                             ses = NA,
                             block_1A_acc = NA,
+                            block_1A_go_acc = NA,
+                            block_1A_nogo_acc = NA,
                             block_1B_acc = NA,
+                            block_1B_go_acc = NA,
+                            block_1B_nogo_acc = NA,
                             block_2A_acc = NA,
+                            block_2A_go_acc = NA,
+                            block_2A_nogo_acc = NA,
                             block_2B_acc = NA,
+                            block_2B_go_acc = NA,
+                            block_2B_nogo_acc = NA,
                             go_acc = NA,
                             nogo_acc = NA,
                             total_acc = NA,
@@ -74,6 +82,8 @@ list_subj <- dir(data_path, pattern = 'sub*')
 
 rowcount <- 1
 
+#list_ses <- dir(paste(data_path,list_subj[1],sep='/'))
+
 for (i in 1:length(list_subj)){
   
   list_ses <- dir(paste(data_path,list_subj[i],sep='/'))
@@ -90,92 +100,94 @@ for (i in 1:length(list_subj)){
     
     
     #data from csv file in temporary dataframe
-    #data_temp <- read.csv(paste(file_path, go_nogo_file, sep = '/'), 1)
+    data_temp <- read.csv(paste(file_path, go_nogo_file, sep = '/'), 1)
     
-    data_temp <- read.csv('E:/Jana/Adore/data_analysis/data/subADBE04/ses-1/subADBE04 ses-1 go_nogo_new.csv')
+    #data_temp <- read.csv('E:/Jana/Adore/data_analysis/data/subADBE04/ses-1/subADBE04 ses-1 go_nogo_new.csv')
     
+    #id
+    go_nogo_data[rowcount, 'id'] <- list_subj[i]
+    
+    #session
+    go_nogo_data[rowcount, 'ses'] <- list_ses[j]
+    
+    #numbers
     #total numbers
-    
-    go_nogo_data[row_count,'total_go_trials'] <- nrow(data_temp[data_temp$solution == 'space',])
-    
-    total_nogo_trials <- nrow(data_temp[data_temp$solution == 'none',])
-    
-    correct_go_total <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1,])
-    
-    correct_nogo_total <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1,])
-    
-    wrong_go_total <- total_go_trials - correct_go_total
-    
-    wrong_nogo_total <- total_nogo_trials - correct_nogo_total
+    go_nogo_data[rowcount,'total_go_trials'] <- nrow(data_temp[data_temp$solution == 'space',])
+    go_nogo_data[rowcount, 'total_nogo_trials'] <- nrow(data_temp[data_temp$solution == 'none',])
+    go_nogo_data[rowcount, 'correct_go_total'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1,])
+    go_nogo_data[rowcount, 'correct_nogo_total'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1,])
+    go_nogo_data[rowcount, 'wrong_go_total'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 0,])
+    go_nogo_data[rowcount, 'wrong_nogo_total'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 0,])
     
     #Block 1A numbers
-    
-    go_trials_1A <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '1A',])
-    
-    nogo_trials_1A <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '1A',])
-    
-    correct_go_1A <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '1A',])
-
-    correct_nogo_1A <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '1A',])
-    
-    wrong_go_1A <- go_trials_1A - correct_go_1A
-    
-    wrong_nogo_1A <- nogo_trials_1A - correct_nogo_1A
+    go_nogo_data[rowcount, 'go_trials_1A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '1A',])
+    go_nogo_data[rowcount, 'nogo_trials_1A'] <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '1A',])
+    go_nogo_data[rowcount, 'correct_go_1A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '1A',])
+    go_nogo_data[rowcount, 'correct_nogo_1A'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '1A',])
+    go_nogo_data[rowcount, 'wrong_go_1A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 0 & data_temp$blocknr == '1A',])
+    go_nogo_data[rowcount, 'wrong_nogo_1A'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 0 & data_temp$blocknr == '1A',])
     
     #Block 1B numbers
-    
-    go_trials_1B <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '1B',])
-    
-    nogo_trials_1B <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '1B',])
-    
-    correct_go_1B <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '1B',])
-    
-    correct_nogo_1B <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '1B',])
-    
-    wrong_go_1B <- go_trials_1B - correct_go_1B
-    
-    wrong_nogo_1B <- nogo_trials_1B - correct_nogo_1B
+    go_nogo_data[rowcount, 'go_trials_1B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '1B',])
+    go_nogo_data[rowcount, 'nogo_trials_1B'] <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '1B',])
+    go_nogo_data[rowcount, 'correct_go_1B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '1B',])
+    go_nogo_data[rowcount, 'correct_nogo_1B'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '1B',])
+    go_nogo_data[rowcount, 'wrong_go_1B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 0 & data_temp$blocknr == '1B',])
+    go_nogo_data[rowcount, 'wrong_nogo_1B'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 0 & data_temp$blocknr == '1B',])
     
     #Block 2A numbers
-    
-    go_trials_2A <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '2A',])
-    
-    nogo_trials_2A <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '2A',])
-    
-    correct_go_2A <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '2A',])
-    
-    correct_nogo_2A <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '2A',])
-    
-    wrong_go_2A <- go_trials_2A - correct_go_2A
-    
-    wrong_nogo_2A <- nogo_trials_2A - correct_nogo_2A
+    go_nogo_data[rowcount, 'go_trials_2A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '2A',])
+    go_nogo_data[rowcount, 'nogo_trials_2A'] <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '2A',])
+    go_nogo_data[rowcount, 'correct_go_2A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '2A',])
+    go_nogo_data[rowcount, 'correct_nogo_2A'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '2A',])
+    go_nogo_data[rowcount, 'wrong_go_2A'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 0 & data_temp$blocknr == '2A',])
+    go_nogo_data[rowcount, 'wrong_nogo_2A'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 0 & data_temp$blocknr == '2A',])
     
     #Block 2B numbers
+    go_nogo_data[rowcount, 'go_trials_2B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '2B',])
+    go_nogo_data[rowcount, 'nogo_trials_2B'] <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '2B',])
+    go_nogo_data[rowcount, 'correct_go_2B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '2B',])
+    go_nogo_data[rowcount, 'correct_nogo_2B'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '2B',])
+    go_nogo_data[rowcount, 'wrong_go_2B'] <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 0 & data_temp$blocknr == '2B',])
+    go_nogo_data[rowcount, 'wrong_nogo_2B'] <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 0 & data_temp$blocknr == '2B',])
     
-    go_trials_2B <- nrow(data_temp[data_temp$solution == 'space' & data_temp$blocknr == '2B',])
     
-    nogo_trials_2B <- nrow(data_temp[data_temp$solution == 'none'& data_temp$blocknr == '2B',])
+    #accuracies
+    #total accuracies
+    go_nogo_data[rowcount, 'total_acc'] <- sum(data_temp$correct) / 288
+    go_nogo_data[rowcount, 'go_acc'] <- go_nogo_data[rowcount, 'correct_go_total'] / go_nogo_data[rowcount, 'total_go_trials']
+    go_nogo_data[rowcount, 'nogo_acc'] <- go_nogo_data[rowcount, 'correct_nogo_total'] / go_nogo_data[rowcount, 'total_nogo_trials']
     
-    correct_go_2B <- nrow(data_temp[data_temp$solution == 'space' & data_temp$correct == 1 & data_temp$blocknr == '2B',])
+    #block 1A accuracies
+    go_nogo_data[rowcount, 'block_1A_acc'] <- (go_nogo_data[rowcount, 'correct_go_1A'] + go_nogo_data[rowcount, 'correct_nogo_1A']) / 72
+    go_nogo_data[rowcount, 'block_1A_go_acc'] <- go_nogo_data[rowcount, 'correct_go_1A'] / go_nogo_data[rowcount, 'go_trials_1A']
+    go_nogo_data[rowcount, 'block_1A_nogo_acc'] <- go_nogo_data[rowcount, 'correct_nogo_1A'] / go_nogo_data[rowcount, 'nogo_trials_1A']
     
-    correct_nogo_2B <- nrow(data_temp[data_temp$solution == 'none' & data_temp$correct == 1 & data_temp$blocknr == '2B',])
+    #block 1B accuracies
+    go_nogo_data[rowcount, 'block_1B_acc'] <- (go_nogo_data[rowcount, 'correct_go_1B'] + go_nogo_data[rowcount, 'correct_nogo_1B']) / 72
+    go_nogo_data[rowcount, 'block_1B_go_acc'] <- go_nogo_data[rowcount, 'correct_go_1B'] / go_nogo_data[rowcount, 'go_trials_1B']
+    go_nogo_data[rowcount, 'block_1B_nogo_acc'] <- go_nogo_data[rowcount, 'correct_nogo_1B'] / go_nogo_data[rowcount, 'nogo_trials_1B']
     
-    wrong_go_2B <- go_trials_2B - correct_go_2B
-  
-    wrong_nogo_2B <- nogo_trials_2B - correct_nogo_2B
+    #block 2A accuracies
+    go_nogo_data[rowcount, 'block_2A_acc'] <- (go_nogo_data[rowcount, 'correct_go_2A'] + go_nogo_data[rowcount, 'correct_nogo_2A']) / 72
+    go_nogo_data[rowcount, 'block_2A_go_acc'] <- go_nogo_data[rowcount, 'correct_go_2A'] / go_nogo_data[rowcount, 'go_trials_2A']
+    go_nogo_data[rowcount, 'block_2A_nogo_acc'] <- go_nogo_data[rowcount, 'correct_nogo_2A'] / go_nogo_data[rowcount, 'nogo_trials_2A']
+    
+    #block 2B accuracies
+    go_nogo_data[rowcount, 'block_2B_acc'] <- (go_nogo_data[rowcount, 'correct_go_2B'] + go_nogo_data[rowcount, 'correct_nogo_2B']) / 72
+    go_nogo_data[rowcount, 'block_2B_go_acc'] <- go_nogo_data[rowcount, 'correct_go_2B'] / go_nogo_data[rowcount, 'go_trials_2B']
+    go_nogo_data[rowcount, 'block_2B_nogo_acc'] <- go_nogo_data[rowcount, 'correct_nogo_2B'] / go_nogo_data[rowcount, 'nogo_trials_2B']
     
     
     
     rowcount <- rowcount + 1
+    }
+  }
     
     
-    
-
-
-# condition <- read.csv('E:/Jana/Adore/data_analysis/ADoRe_allocation_list_UNBLIND - Copy.csv')
-# 
-# go_nogo_data <- go_nogo_data[order(go_nogo_data$id, go_nogo_data$ses),]
-# condition <- condition[order(condition$id, condition$ses),]
-# go_nogo_data <- merge(condition, go_nogo_data, by = c('id','ses'), all = TRUE)
-# 
-# write.csv(go_nogo_data, "E:/Jana/Adore/data_analysis/go_nogo_data.csv", row.names=FALSE)
+ condition <- read.csv('E:/Jana/Adore/data_analysis/ADoRe_allocation_list_UNBLIND - Copy.csv')
+ go_nogo_data <- go_nogo_data[order(go_nogo_data$id, go_nogo_data$ses),]
+ condition <- condition[order(condition$id, condition$ses),]
+ go_nogo_data <- merge(condition, go_nogo_data, by = c('id','ses'), all = TRUE)
+ 
+ write.csv(go_nogo_data, "E:/Jana/Adore/data_analysis/go_nogo_data.csv", row.names=FALSE)
