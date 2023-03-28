@@ -327,4 +327,4 @@ syndata_RL <- syndata_RL[order(syndata_RL$id, syndata_RL$ses),]
 condition <- condition[order(condition$id, condition$ses),]
 syndata_RL <- merge(condition, syndata_RL, by = c('id','ses'), all = TRUE)
 head(syndata_RL)
-#write.csv(syndata_RL, "E:/Jana/Adore/data_analysis/final_dataframe.csv", row.names=FALSE)
+write.csv(syndata_RL, "E:/Jana/Adore/data_analysis/final_dataframe.csv", row.names=FALSE)
