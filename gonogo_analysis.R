@@ -108,8 +108,8 @@ pwcc
 friedmanmc(go_nogo_data$nogo_acc, go_nogo_data$cond, go_nogo_data$id)
 
 #test accuracy overall anova
-pwccc <-  pairwise_t_test(reward_learning_data, test_acc_overall ~ cond, paired = TRUE,p.adjust.method = "bonferroni")
-pwccc
+resuuuu <- anova_test(data = reward_learning_data ,dv = test_acc_overall , wid = id , within = cond) 
+get_anova_table(resuuuu)
 
 #go errors
 x <- c(go_nogo_data$wrong_go_total)
@@ -129,5 +129,21 @@ friedman.test(go_nogo_data$correct_nogo_total, go_nogo_data$cond, go_nogo_data$i
 shapiro.test(gonogo_acute$correct_nogo_total)
 shapiro.test(gonogo_daily$correct_nogo_total)
 shapiro.test(gonogo_plac$correct_nogo_total)
-pwcccc <-  pairwise_t_test(go_nogo_data, correct_nogo_total ~ cond, paired = TRUE,p.adjust.method = "bonferroni")
-pwcccc
+ressu <- anova_test(data = go_nogo_data ,dv = correct_nogo_total , wid = id , within = cond) 
+get_anova_table(ressu)
+
+#no outliers
+gonogo_copy <- go_nogo_data
+namevectorindices <- which(gonogo_copy$nogo_acc < 0.42)
+namevector <- unique(gonogo_copy[namevectorindices,'id'])
+
+for(value in namevector) {
+  gonogo_copy = gonogo_copy[gonogo_copy$id != value, ]
+}
+#nogo accuracy without outliers
+x <- c(gonogo_copy$nogo_acc)
+hist(x)
+boxplot(x, main = "Boxplot")
+resuu <- anova_test(data = gonogo_copy ,dv = nogo_acc , wid = id , within = cond) 
+get_anova_table(resuu)
+friedman.test(gonogo_copy$nogo_acc, gonogo_copy$cond, gonogo_copy$id)
